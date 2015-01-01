@@ -30,6 +30,15 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./public/css/material.min.css">
     <link rel="stylesheet" href="./public/css/styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0-rc1/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0-rc1/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+
+
+
+
+
     <style>
     #view-source {
       position: fixed;
@@ -90,6 +99,14 @@
         </nav>
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
+
+        <div id="posts">
+
+
+
+        </div>
+
+
         <div class="mdl-grid demo-content">
           <% var posts = JSON.parse(posts);
             posts.forEach(function(post) { %>
@@ -110,9 +127,11 @@
     </div>
 
     <script src="./public/js/material.min.js"></script>
-    <script src="./public/js/jquery.min.js" charset="utf-8"></script>
+    <script src="./public/js/jquery-1.11.3.min.js" charset="utf-8"></script>
     <script src="./public/js/lodash.min.js" charset="utf-8"></script>
     <script src="./public/js/main.js" charset="utf-8"></script>
+
+    <script type="text/babel" src="./components/test.js"></script>
 
     <script type="text/javascript">
 

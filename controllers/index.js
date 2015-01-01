@@ -71,9 +71,9 @@ router.post('/signIn', function(req, res, next) {
       if(err) {
         return res.render('signIn', {title: 'Sign In Error', errorMessage: err.message});
       } else {
-        // return res.redirect('/');
+        return res.redirect('/');
         //TEMP: redirect to /newPost for testing
-        return res.redirect('/newPost');        
+        // return res.redirect('/newPost');
       }
     });
   })(req, res, next);
