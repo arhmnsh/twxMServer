@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "dependencies": {
     "express": "^4.12.2",
-    "node-mysql": "^0.4.2"
+    "mysql": "^2.5.5"
   }
 }
