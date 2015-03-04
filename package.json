@@ -1,0 +1,8 @@
+{
+  "name": "twxServer",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4",
+    "mysql": "^2"
+  }
+}
