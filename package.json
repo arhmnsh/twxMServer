@@ -2,7 +2,7 @@
   "name": "twxServer",
   "version": "0.0.1",
   "dependencies": {
-    "express": "^4",
-    "mysql": "^2"
+    "express": "^4.12.2",
+    "node-mysql": "^0.4.2"
   }
 }
