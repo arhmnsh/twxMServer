@@ -1,6 +1,7 @@
 var express = require('express');
 var mysql = require('mysql');
 var app = express();
+var bodyParser = require('body-parser');
 
 var pool = mysql.createPool({
   connectionLimit: 100, //important
@@ -11,7 +12,7 @@ var pool = mysql.createPool({
   debug: false
 });
 
-function getTweets(req, res) {
+function getPosts(req, res) {
   pool.getConnection(function(err, connection) {
     if (err) {
       connection.release();
@@ -21,7 +22,7 @@ function getTweets(req, res) {
 
     console.log("Connected as ID: ", connection.threadId);
 
-    connection.query("SELECT tweets.*, users.screen_name FROM tweets, users WHERE tweets.user_id = users.user_id ORDER BY tweets.created_at", function(err, rows, fields) {
+    connection.query("SELECT posts.*, users.screen_name FROM posts, users WHERE posts.user_id = users.user_id ORDER BY posts.created_at DESC", function(err, rows, fields) {
       connection.release();
       if(!err) {
         res.json(rows);
@@ -31,14 +32,25 @@ function getTweets(req, res) {
   });
 }
 
+function submitPost (req, res) {
+  console.log(req.body);
+}
+
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
   next();
-})
+});
 
-app.get("/getTweets", function(req, res) {
-  getTweets(req, res);
+app.use(bodyParser.json());
+
+app.get("/getPosts", function(req, res) {
+  getPosts(req, res);
+});
+
+app.post("/submitPost", function(req, res) {
+  // submitPost(req, res);
+  console.log(req.body);
 });
 
 app.listen(3010);
