@@ -14,7 +14,7 @@ var pool = mysql.createPool({
 
 function getPosts(req, res) {
   pool.getConnection(function(err, connection) {
-    if (err) {
+    if(err) {
       connection.release();
       res.json({"code" : 100, "status" : "Error in connecting to database"});
       return;
@@ -34,6 +34,30 @@ function getPosts(req, res) {
 
 function submitPost (req, res) {
   console.log(req.body);
+  pool.getConnection(function(err, connection) {
+    if(err) {
+      connection.release();
+      res.json({"code" : 100, "status" : "Error in connection to database"});
+      return;
+    }
+
+    // console.log("Connected as ID: ", connection.threadId);
+    // var postContent = {}
+    // postContent.title = req.body.title;
+    // postContent.body = req.body.body;
+
+    var query = connection.query("INSERT INTO `twx`.`posts` SET `post_title` = ?, `post_body` = ?, `user_id` = ?", [req.body.post_content.title, req.body.post_content.body, req.body.user_id], function(err, result) {
+      connection.release();
+      if(err) {
+        throw err;
+        return;
+      }
+
+      console.log("Insert ID: ", result.insertId);
+    });
+    console.log("Query: ", query.sql);
+  })
+
 }
 
 app.all('/*', function(req, res, next) {
@@ -49,8 +73,8 @@ app.get("/getPosts", function(req, res) {
 });
 
 app.post("/submitPost", function(req, res) {
-  // submitPost(req, res);
-  console.log(req.body);
+  submitPost(req, res);
+  // console.log(req.body);
 });
 
 app.listen(3010);
