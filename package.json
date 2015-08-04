@@ -1,9 +1,19 @@
 {
   "name": "twxServer",
+  "description": "ExpressJs + Passport.js + MySQL Authentication",
   "version": "0.0.1",
+  "main": "app.js",
+  "author": "ar",
   "dependencies": {
-    "body-parser": "^1.12.2",
-    "express": "^4.12.2",
-    "mysql": "^2.5.5"
+    "bcrypt-nodejs": "*",
+    "body-parser": "*",
+    "bookshelf": "0.5",
+    "cookie-parser": "*",
+    "ejs": "*",
+    "express": "4.x",
+    "express-session": "*",
+    "mysql": "*",
+    "passport": "*",
+    "passport-local": "*"
   }
 }
