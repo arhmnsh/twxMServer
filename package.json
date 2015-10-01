@@ -14,6 +14,7 @@
     "express-session": "*",
     "mysql": "*",
     "passport": "*",
-    "passport-local": "*"
+    "passport-local": "*",
+    "request": "^2.60.0"
   }
 }

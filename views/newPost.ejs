@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+
+    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./public/css/material.min.css">
+    <link rel="stylesheet" href="./public/css/medium-editor.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="./public/css/styles.css">
+    <style>
+      .demo-ribbon {
+        width: 100%;
+        height: 40vh;
+        background-color: #3F51B5;
+        -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+                flex-shrink: 0;
+      }
+
+      .demo-main {
+        margin-top: -35vh;
+        -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+                flex-shrink: 0;
+      }
+
+      .demo-header .mdl-layout__header-row {
+        padding-left: 40px;
+      }
+
+      .demo-container {
+        max-width: 1600px;
+        width: calc(100% - 16px);
+        margin: 0 auto;
+      }
+
+      .demo-content {
+        border-radius: 2px;
+        padding: 80px 56px;
+        margin-bottom: 80px;
+      }
+
+      .demo-layout.is-small-screen .demo-content {
+        padding: 40px 28px;
+      }
+
+      .demo-content h3 {
+        margin-top: 48px;
+      }
+
+      .demo-footer {
+        padding-left: 40px;
+      }
+
+      .demo-footer .mdl-mini-footer--link-list a {
+        font-size: 13px;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+      <header class="demo-header mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+        <div class="mdl-layout__header-row">
+          <a href="./"><span class="mdl-layout-title">Home</span></a>
+          <div class="mdl-layout-spacer"></div>
+          <a href="" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="publishPostBtn" data-upgraded=",MaterialButton,MaterialRipple" style="position: absolute; right: 80px; top: 36px; z-index: 999;">
+            <i class="material-icons" role="presentation">publish</i>
+            <span class="visuallyhidden">Publish</span>
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating" style="width: 160.391918985787px; height: 160.391918985787px; -webkit-transform: translate(-50%, -50%) translate(16px, 29px); transform: translate(-50%, -50%) translate(16px, 29px);"></span></span>
+          </a>
+        </div>
+      </header>
+      <div class="demo-ribbon"></div>
+      <main class="demo-main mdl-layout__content">
+        <div class="demo-container mdl-grid">
+          <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+          <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
+            <form id="post-form" method="post" action="posts/newPost">
+              <h3 name="post-title" class="post-title" contenteditable="true">Heading...</h3>
+              <div name="post-body" class="post-body editable">Post...</div>
+            </form>
+          </div>
+        </div>
+        <footer class="demo-footer mdl-mini-footer">
+          <div class="mdl-mini-footer--left-section">
+            <ul class="mdl-mini-footer--link-list">
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Privacy and Terms</a></li>
+              <li><a href="#">User Agreement</a></li>
+            </ul>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script src="./public/js/material.min.js"></script>
+    <script src="./public/js/jquery.min.js" charset="utf-8"></script>
+    <script src="./public/js/medium-editor.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      var editor = new MediumEditor('.editable');
+
+      $('#publishPostBtn').click(function(e) {
+        e.preventDefault();
+        // document.querySelector('#post-form').submit();
+
+        // return;
+        var postData = {};
+        postData.post_content = {};
+        postData.post_content.title = document.querySelector('.post-title').innerHTML;
+        postData.post_content.body = document.querySelector('.post-body').innerHTML;
+        // postData.user_id = 1;
+        // console.log(JSON.stringify(postData));
+        //
+        var postRequest = new XMLHttpRequest();   // new HttpRequest instance
+        postRequest.open('POST', 'posts/newPost', true);
+        postRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        postRequest.send(JSON.stringify(postData));
+        postRequest.onreadystatechange = function() {
+          if(postRequest.readyState == 4 && postRequest.status == 200) {
+            window.location = '/';
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
