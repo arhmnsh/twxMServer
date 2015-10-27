@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= title %></title>
 
-    <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/material.min.css">
-    <link rel="stylesheet" href="./public/css/medium-editor.min.css" media="screen" title="no title" charset="utf-8">
+    <!-- <link href='//fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="stylesheet" href="./public/bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="./public/bower_components/medium-editor/dist/css/medium-editor.min.css">
+    <link rel="stylesheet" href="./public/bower_components/medium-editor/dist/css/themes/default.css" id="medium-editor-theme">
+    <link rel="stylesheet" href="./public/bower_components/medium-editor-insert-plugin/dist/css/medium-editor-insert-plugin.min.css">
     <link rel="stylesheet" href="./public/css/styles.css">
+    <link rel="stylesheet" href="./public/css/post.css">
     <style>
-      .demo-ribbon {
+      /*.demo-ribbon {
         width: 100%;
         height: 40vh;
         background-color: #3F51B5;
@@ -59,7 +62,7 @@
       .demo-footer .mdl-mini-footer--link-list a {
         font-size: 13px;
       }
-    }
+    }*/
     </style>
   </head>
   <body>
@@ -68,7 +71,14 @@
         <div class="mdl-layout__header-row">
           <a href="./"><span class="mdl-layout-title">Home</span></a>
           <div class="mdl-layout-spacer"></div>
-          <a href="" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="publishPostBtn" data-upgraded=",MaterialButton,MaterialRipple" style="position: absolute; right: 80px; top: 36px; z-index: 999;">
+
+          <a id="savePostBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" data-upgraded=",MaterialButton,MaterialRipple" style="position: absolute; right: 155px; top: 36px; z-index: 999;">
+            <i class="material-icons" role="presentation">save</i>
+            <span class="visuallyhidden">Save as draft</span>
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating" style="width: 160.391918985787px; height: 160.391918985787px; -webkit-transform: translate(-50%, -50%) translate(16px, 29px); transform: translate(-50%, -50%) translate(16px, 29px);"></span></span>
+          </a>
+
+          <a id="publishPostBtn" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" data-upgraded=",MaterialButton,MaterialRipple" style="position: absolute; right: 80px; top: 36px; z-index: 999;">
             <i class="material-icons" role="presentation">publish</i>
             <span class="visuallyhidden">Publish</span>
             <span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating" style="width: 160.391918985787px; height: 160.391918985787px; -webkit-transform: translate(-50%, -50%) translate(16px, 29px); transform: translate(-50%, -50%) translate(16px, 29px);"></span></span>
@@ -81,8 +91,14 @@
           <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
           <div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
             <form id="post-form" method="post" action="posts/newPost">
-              <h3 name="post-title" class="post-title" contenteditable="true">Heading...</h3>
-              <div name="post-body" class="post-body editable">Post...</div>
+              <div class="title-container">
+                <h3 name="post-title" class="post-title" contenteditable="true">Heading...</h3>
+                <input id="coverImageBtnFile" type="file" accept="image/*">
+                <a id="coverImageBtn"><i class="material-icons">photo</i></a>
+              </div>
+              <div class="body-container">
+                <div name="post-body" class="post-body editable">Post...</div>
+              </div>
             </form>
           </div>
         </div>
@@ -98,32 +114,96 @@
       </main>
     </div>
 
-    <script src="./public/js/material.min.js"></script>
-    <script src="./public/js/jquery.min.js" charset="utf-8"></script>
-    <script src="./public/js/medium-editor.min.js" charset="utf-8"></script>
+    <script src="./public/bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="./public/bower_components/material-design-lite/material.min.js"></script>
+    <script src="./public/bower_components/medium-editor/dist/js/medium-editor.min.js" charset="utf-8"></script>
+    <script src="./public/bower_components/handlebars/handlebars.runtime.min.js"></script>
+    <script src="./public/bower_components/jquery-sortable/source/js/jquery-sortable-min.js"></script>
+    <!-- Unfortunately, jQuery File Upload Plugin has a few more dependencies itself -->
+    <script src="./public/bower_components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="./public/bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="./public/bower_components/blueimp-file-upload/js/jquery.fileupload.js"></script>
+    <script src="./public/bower_components/medium-editor-insert-plugin/dist/js/medium-editor-insert-plugin.min.js"></script>
+
+
     <script type="text/javascript">
       var editor = new MediumEditor('.editable');
+      var coverImage64;
+
+      $('.editable').mediumInsert({
+        editor: editor, // (MediumEditor) Instance of MediumEditor
+        enabled: false,
+        addons: { // (object) Addons configuration
+          images: { // (object) Image addon configuration
+            label: '<span class="fa fa-camera"></span>', // (string) A label for an image addon
+            autoGrid: 3, // (integer) Min number of images that automatically form a grid
+            fileUploadOptions: { // (object) File upload configuration. See https://github.com/blueimp/jQuery-File-Upload/wiki/Options
+              url: 'upload.php', // (string) A relative path to an upload script
+              acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i // (regexp) Regexp of accepted file types
+            },
+            messages: {
+              acceptFileTypesError: 'This file is not in a supported format: ',
+              maxFileSizeError: 'This file is too big: '
+            },
+            uploadCompleted: function ($el, data) {} // (function) Callback function called when upload is completed
+          },
+        }
+      });
 
       $('#publishPostBtn').click(function(e) {
         e.preventDefault();
-        // document.querySelector('#post-form').submit();
+        submitPost('publish')
+      });
 
-        // return;
+      $('#savePostBtn').click(function(e) {
+        e.preventDefault();
+        submitPost('draft')
+      });
+
+      function submitPost(postType) {
         var postData = {};
         postData.post_content = {};
         postData.post_content.title = document.querySelector('.post-title').innerHTML;
         postData.post_content.body = document.querySelector('.post-body').innerHTML;
-        // postData.user_id = 1;
-        // console.log(JSON.stringify(postData));
-        //
+        postData.post_content.isDraft = (postType == "draft" ? 1 : 0);
+        if($('#coverImageBtnFile')[0].files[0]) {
+          postData.post_content.coverImageFilename = $('#coverImageBtnFile')[0].files[0].name;
+          postData.post_content.coverImage = coverImage64;
+        }
+
+
         var postRequest = new XMLHttpRequest();   // new HttpRequest instance
-        postRequest.open('POST', 'posts/newPost', true);
+        postRequest.open('POST', 'newPost', true);
         postRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         postRequest.send(JSON.stringify(postData));
+
         postRequest.onreadystatechange = function() {
           if(postRequest.readyState == 4 && postRequest.status == 200) {
             window.location = '/';
           }
+        }
+      }
+
+      $('#coverImageBtn').click(function() {
+        $('#coverImageBtnFile').click();
+        console.log('test');
+      });
+
+      $('#coverImageBtnFile').change(function() {
+        if (this.files && this.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            // var coverImage = $('<img id="coverImage">'); //Equivalent: $(document.createElement('img'))
+            // coverImage.attr('src', e.target.result);
+            // console.log(e.target.result);
+            // coverImage.appendTo($('.title-container'));
+
+            $('.title-container').css('background-image', 'url('+e.target.result+')')
+            coverImage64 = e.target.result;
+
+            // $('#blah').attr('src', e.target.result);
+          }
+          console.log('url: '+reader.readAsDataURL(this.files[0]));
         }
       });
     </script>

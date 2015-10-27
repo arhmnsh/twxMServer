@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Material Design Lite</title>
+    <title><%= title %></title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -28,8 +28,8 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/material.min.css">
-    <link rel="stylesheet" href="./public/css/styles.css">
+    <link rel="stylesheet" href="../public/css/material.min.css">
+    <link rel="stylesheet" href="../public/css/styles.css">
     <style>
     #view-source {
       position: fixed;
@@ -65,9 +65,8 @@
       </header>
       <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
         <header class="demo-drawer-header">
-          <img src="./public/images/user.jpg" class="demo-avatar">
+          <img src="../public/images/user.jpg" class="demo-avatar">
           <div class="demo-avatar-dropdown">
-            <span><%= user.screen_name%></span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -91,11 +90,9 @@
       </div>
       <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
-          <% var posts = JSON.parse(posts);
-            posts.forEach(function(post) { %>
               <div class="demo-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop">
                 <div class="mdl-card__title mdl-card--expand mdl-color--yellow-300">
-                  <h2 class="mdl-card__title-text"><%= post.post_title  +' by '+ post.screen_name %></h2>
+                  <h2 class="mdl-card__title-text"><%- post.post_title %></h2>
                 </div>
                 <div class="mdl-card__supporting-text mdl-color-text--grey-600">
                   <%- post.post_body %>
@@ -104,15 +101,14 @@
                   <a href="#" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Read More<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>
                 </div>
               </div>
-            <% }); %>
         </div>
       </main>
     </div>
 
-    <script src="./public/js/material.min.js"></script>
-    <script src="./public/js/jquery.min.js" charset="utf-8"></script>
-    <script src="./public/js/lodash.min.js" charset="utf-8"></script>
-    <script src="./public/js/main.js" charset="utf-8"></script>
+    <script src="../public/js/material.min.js"></script>
+    <script src="../public/js/jquery-1.11.3.min.js" charset="utf-8"></script>
+    <script src="../public/js/lodash.min.js" charset="utf-8"></script>
+    <script src="../public/js/main.js" charset="utf-8"></script>
 
     <script type="text/javascript">
 

@@ -10,14 +10,18 @@ var path = require('path');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use('/public', express.static(__dirname + '/public'));
 app.use('/components', express.static(__dirname + '/views/components'));
+app.use('/images', express.static(__dirname + '/data/postImages'));
 
 app.use(cookieParser());
-app.use(bodyParser());
 app.use(session({secret: 'secret strategic xxzzz code'}));
 app.use(passport.initialize());
 app.use(passport.session());

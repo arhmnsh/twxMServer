@@ -7,7 +7,7 @@ var express = require('express'),
     db = require('../db');
 
 
-router.use('/posts', require('./posts'));
+router.use('/', require('./posts'));
 
 // router.get('/', function(req, res) {
 //   res.render('index');
@@ -21,7 +21,8 @@ router.get('/', function(req, res, next) {
     var user = req.user;
     var posts = 'test';
     //get posts
-    request('http://localhost:3000/posts/getAll', function(error, response, body) {
+    request(req.protocol+'://'+req.get('host')+'/getAllPosts', function(error, response, body) {
+      console.log(error)
       if (!error && response.statusCode == 200) {
         posts = body;
       }
@@ -41,6 +42,27 @@ router.get('/', function(req, res, next) {
 
   }
 });
+
+//post
+router.get('/post/:id', function(req, res, next) {
+  // if(!req.isAuthenticated()) {
+  //   res.redirect('/signIn');
+  // } else {
+    var user = req.user;
+
+    request(req.protocol+'://'+req.get('host')+'/getPost/'+req.param('id'), function(error, response, post) {
+        console.log('error!!: '+error);
+        // console.log('response!!: '+JSON.stringify(response));
+        console.log('post!!: '+post);
+
+      if(!error && response.statusCode == 200) {
+        res.render('post', {title: 'khjr post', user: user, post: JSON.parse(post)[0]})
+      }
+    });
+    // request('http://localhost')
+    // res.render('post', {title: 'Post'});
+  // }
+})
 
 //newPost
 router.get('/newPost', function(req, res, next) {
