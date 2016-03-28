@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>twx</title>
+
+    <link rel="stylesheet" href="/public/bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="./public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/userProfile.css">
+    <link rel="stylesheet" href="/public/css/postPreview.css">
+
+  </head>
+  <body>
+    <% if(typeof(errorMessage) !== 'undefined') {%>
+      <span><%= errorMessage %></span>
+    <% } %>
+
+    <% if(typeof(userDetails) !== 'undefined') {%>
+      <div class="layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+        <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--grey-100 mdl-color-text--grey-800">
+          <div class="mdl-layout__header-row">
+            <a href="/"><span class="mdl-layout-title">Home</span></a>
+            <div class="mdl-layout-spacer"></div>
+
+        </header>
+        <div class="ribbon"></div>
+        <main class="mdl-layout__content">
+          <div class="container mdl-grid">
+            <div class="mdl-cell mdl-cell--1-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            <div class="user-details-container content mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--10-col">
+              <div class="avatar-container">
+                <img class="avatar" src="<%=(userDetails.profile_image ? '/data/profileImages/'+userDetails.profile_image: '')%>" alt="" />
+              </div>
+              <h3 class="fullname"><%=userDetails.fullname%></h3>
+
+              <div class="menu">
+                <p>
+                  <a href="/<%=userDetails.username%>/following">Following</a>
+                </p>
+                <p>
+                  <a href="/<%=userDetails.username%>/followers">Followers</a>
+                </p>
+                <%if(userDetails.isFollowing !== undefined) {%>
+                  <button id="follow-btn" class="<%=(userDetails.isFollowing == true ? 'following' : '')%> mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                    <%=(userDetails.isFollowing == true ? 'Following' : 'Follow')%>
+                  </button>
+                <%}%>
+              </div>
+            </div>
+            <div class="mdl-cell mdl-cell--1-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+
+            <div class="mdl-cell mdl-cell--1-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            <div class="content content mdl-color-text--grey-800 mdl-cell mdl-cell--10-col mdl-grid">
+
+              <% userPosts.forEach(function(post) { %>
+                <% include components/postPreview.ejs %>
+              <% }); %>
+            </div>
+
+          </div>
+
+
+        </main>
+      </div>
+
+    <% } %>
+
+    <script src="/public/bower_components/material-design-lite/material.min.js"></script>
+    <script src="/public/bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="/public/js/lodash.min.js" charset="utf-8"></script>
+    <script src="./public/js/postPreview.js"></script>
+
+    <script type="text/javascript">
+      var userid = <%=(userDetails !== undefined ? userDetails.user_id : '')%>;
+      $('#follow-btn').click(function(e) {
+        e.preventDefault();
+        follow(userid, !$(this).hasClass('following'));
+      });
+
+      function follow(userid, follow) {
+        var followDetails = {};
+        followDetails.following_id = userid;
+        followDetails.follow = follow;
+
+        console.log(JSON.stringify(followDetails));
+        // return;
+
+        var postRequest = new XMLHttpRequest();   // new HttpRequest instance
+        postRequest.open('POST', '/follow', true);
+        postRequest.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        postRequest.send(JSON.stringify(followDetails));
+
+        postRequest.onreadystatechange = function() {
+          if(postRequest.readyState == 4 && postRequest.status == 200) {
+            var status = JSON.parse(postRequest.response).status;
+            console.log(status);
+            if(status=='success') {
+              $("#follow-btn").toggleClass('following');
+              if($("#follow-btn").hasClass('following')){
+                $("#follow-btn").text('Following');
+              } else {
+                $("#follow-btn").text('Follow');
+              }
+            }
+          }
+        }
+      }
+
+    </script>
+  </body>
+</html>

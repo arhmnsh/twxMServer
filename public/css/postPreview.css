@@ -1,0 +1,42 @@
+#coverImageBtnFile {
+  position: absolute;
+  top: -99999px;
+}
+
+.post-preview .mdl-card__title {
+  position: relative;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 200px;
+}
+
+.post-preview .post-details > * {
+  align-self: flex-end;
+  margin: 0;
+}
+
+.post-details .post-title {
+  margin-right: 10px;
+}
+
+.post-details .post-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: #777;
+}
+
+.post-preview .username {
+  text-decoration: none;
+}
+
+.post-preview .avatar {
+  width: 30px;
+  height: auto;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.mdl-card__actions {
+  display: flex;
+}

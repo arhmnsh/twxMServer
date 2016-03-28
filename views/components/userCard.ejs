@@ -1,0 +1,13 @@
+<%console.log(userFollow)%>
+<div class="user-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" data-user-id="<%=userFollow.user_id%>">
+  <div class="user-details">
+    <div class="avatar-container">
+      <img class="avatar" src="<%=(userFollow.profile_image ? '/data/profileImages/'+userFollow.profile_image: '')%>" alt="" />
+    </div>
+    <a href="/<%=userFollow.username%>" class="user-fullname"><%=userFollow.fullname%></a>
+    <div>
+      <a href="/<%=userFollow.username%>" class="user-username"><%=userFollow.username%></a> <%-(userFollow.link !== null ? '<span class="seperator">|</span> <a class="user-link" href="'+userFollow.link+'">'+userFollow.link+'</a>' : '')%>
+    </div>
+    <p class="user-bio"><%=userFollow.bio%></p>
+  </div>
+</div>

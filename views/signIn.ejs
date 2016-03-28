@@ -2,30 +2,46 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= title %></title>
+
+    <link rel="stylesheet" href="./public/bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="./public/css/form.css">
+    <link rel="stylesheet" href="./public/css/styles.css">
+
+    <style>
+
+
+    </style>
   </head>
   <body>
-    <h2>Sign In Form</h2>
-    <form action="/signIn" method="post">
+    <div class="container mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
 
       <% if(typeof(errorMessage) !== 'undefined') {%>
         <span><%= errorMessage %></span>
       <% } %>
 
-      <p>
-        <label for="username">username</label>
-        <input type="text" name="username" id="username" placeholder="username" required="true" value="bism" />
-      </p>
-      <p>
-        <label for="password">password</label>
-        <input type="text" name="password" id="password" placeholder="password" required="true" value="123" />
-      </p>
+      <form id="signin-form" action="/signIn" method="post">
+        <h3>Sign In</h3>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" name="username" id="username" required="true" value="bism" />
+          <label class="mdl-textfield__label" for="username">username</label>
+        </div>
 
-      <p>
-        <input type="submit" name="signin" value="sign in"/>
-        <a href="/signUp" title="signUp">Sign Up</a>
-      </p>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <input class="mdl-textfield__input" type="text" name="password" id="password" required="true" value="123" />
+          <label class="mdl-textfield__label" for="password">password</label>
+        </div>
 
-    </form>
+        <div>
+          <input class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" name="signin" value="sign in"/>
+          <a class="mdl-button mdl-js-button" href="/signUp" title="signUp">Sign Up</a>
+        </p>
+
+      </form>
+    </div>
+
+    <script src="./public/bower_components/material-design-lite/material.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,20 @@
+<div class="post-preview mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--8-col-desktop" data-post-id="<%=post.post_id%>">
+  <a href="<%if(post.is_draft === 1){%>/edit/<%} else {%>/post/<%}%><%=post.post_id%>">
+    <div class="post-header mdl-card__title mdl-card--expand mdl-color--grey-300" <% if(post.cover_image !== null) { %> style="background-image: url('/covers/<%=post.cover_image%>')" <% } %> >
+      <div class="post-details">
+        <h2 class="post-title mdl-card__title-text"><%=post.post_title%></h2>
+        <p class="post-date ">
+          <%= moment(post.created_at).fromNow() %>
+        </p>
+      </div>
+    </div>
+  </a>
+  <!--<div class="post-body mdl-card__supporting-text mdl-color-text--grey-600">
+     <%- post.post_body %>
+  </div>-->
+  <div class="mdl-card__actions mdl-card--border">
+    <span class="post-author"><a class="username" href="./<%=post.username%>"><img src="<%=(post.profile_image ? '/data/profileImages/'+post.profile_image: '')%>" class="avatar"><%=post.fullname%></a></span>
+    <!--<a href="<%if(post.is_draft === 1){%>/edit/<%} else {%>/post/<%}%><%=post.post_id%>" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-upgraded=",MaterialButton,MaterialRipple">Read More<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>-->
+    <div class="mdl-layout-spacer"></div>
+  </div>
+</div>

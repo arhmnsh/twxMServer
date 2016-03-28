@@ -1,0 +1,26 @@
+.user-card {
+  padding: 20px 20px 10px;
+}
+.user-card .user-details {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.user-card .user-fullname, .user-card .user-username, .user-card .user-link {
+  text-decoration: none;
+}
+.user-card .user-fullname {
+  font-size: 24px; font-weight: 300; color: #333; line-height: normal; overflow: hidden; margin: 15px 0px 5px;
+}
+.user-card .user-username, .user-card .user-link, .user-card .user-bio {
+  color: #6e7882;
+  text-align: justify;
+}
+.seperator {
+  color: #ccc;
+}
+.avatar-container {
+  border-radius: 50%;
+}
+  .avatar-container .avatar {
+    height: 120px;
+    width: 120px;
+  }

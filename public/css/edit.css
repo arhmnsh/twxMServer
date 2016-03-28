@@ -1,0 +1,29 @@
+.post-body {
+  min-height: 300px;
+}
+.post-body > * {
+  font-size: large;
+  font-weight: 300;
+}
+
+.title-container, .body-container {
+  padding: 15px;
+
+}
+.title-container{
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.post-title {
+  margin-top: 0;
+}
+
+#coverImageBtnFile {
+  position: fixed;
+  top: -1000px;
+}

@@ -12,12 +12,17 @@
     "ejs": "*",
     "express": "4.x",
     "express-session": "*",
+    "jfum": "^1.0.3",
+    "moment": "^2.10.6",
+    "multer": "^1.1.0",
     "mysql": "*",
     "passport": "*",
     "passport-local": "*",
     "react": "^0.14.0-beta1",
     "react-dom": "^0.14.0-beta1",
-    "request": "^2.60.0"
+    "request": "^2.60.0",
+    "serve-favicon": "^2.3.0",
+    "tracer": "^0.8.3"
   },
   "devDependencies": {
     "babel-core": "^5.8.25",

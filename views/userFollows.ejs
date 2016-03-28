@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Settings</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/public/bower_components/material-design-lite/material.min.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/userCard.css">
+    <style>
+      .mdl-layout-title {
+        text-transform: capitalize;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+      <header class="demo-header mdl-layout__header mdl-color--white mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+          <span class="mdl-layout-title"><%=title%></span>
+          <div class="mdl-layout-spacer"></div>
+          <a href="/edit" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add" data-upgraded=",MaterialButton,MaterialRipple" style="position: absolute; right: 80px; top: 36px; z-index: 999;">
+            <i class="material-icons" role="presentation">add</i>
+            <span class="visuallyhidden">Add</span>
+            <span class="mdl-button__ripple-container"><span class="mdl-ripple is-animating" style="width: 160.391918985787px; height: 160.391918985787px; -webkit-transform: translate(-50%, -50%) translate(16px, 29px); transform: translate(-50%, -50%) translate(16px, 29px);"></span></span>
+          </a>
+        </div>
+      </header>
+
+      <% include components/sidebar.ejs %>
+
+      <main class="mdl-layout__content mdl-color--grey-100">
+        <div class="mdl-grid">
+
+          <% //var followDetails = JSON.parse(followDetails);
+            followDetails.forEach(function(userFollow) { %>
+              <% include components/userCard.ejs %>
+            <% }); %>
+          </div>
+
+            <!-- <p>
+              <label for="bio">Pic</label>
+              <img src="<%=(user.profile_image ? '/data/profileImages/'+user.profile_image: '')%>"+ alt="">
+              <input type="file" name="profile_image" id="profileImage" accepet="image/*">
+            </p>
+            <p>
+              <label for="fullname">Full name</label>
+              <input type="text" name="fullname" id="fullname" placeholder="Full name" required="true" value="<%=(user.fullname ? user.fullname: '')%>"/>
+            </p>
+            <p>
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" placeholder="username" required="true" value="<%=(user.username ? user.username: '')%>"/>
+            </p>
+            <p>
+              <label for="bio">Bio</label>
+              <input type="text" name="bio" id="bio" placeholder="Something about yourself..." value="<%=(user.bio ? user.bio: '')%>">
+            </p>
+            <p>
+              <label for="location">Location</label>
+              <input type="text" name="location" id="location" placeholder="Something about yourself..." value="<%=(user.location ? user.location: '')%>">
+            </p>
+
+            <p>
+              <input type="submit" name="saveSettings" value="Save"/>
+              <a href="/" title="cancel">Cancel</a>
+            </p> -->
+
+      </main>
+
+
+    </div>
+
+
+    <script src="/public/bower_components/material-design-lite/material.min.js"></script>
+    <script src="/public/bower_components/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="/public/js/lodash.min.js" charset="utf-8"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  background: rgba(245, 245, 247, 0.68);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+}
+  form > div {
+    display: block;
+  }
+
+
+.container {
+  align-items: center;
+  justify-content: center;
+  background: url('/public/images/login.png');
+  background-size: cover;
+}

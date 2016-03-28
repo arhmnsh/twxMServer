@@ -1,5 +1,6 @@
 //vendor libraries
 var express = require('express');
+var favicon = require('serve-favicon');
 var app = express();
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -9,22 +10,30 @@ var ejs = require('ejs');
 var path = require('path');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var moment = require('moment');
 
 
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.locals.moment = moment; // this makes moment available as a variable in every EJS page
 
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.use('/', express.static(__dirname));
 app.use('/public', express.static(__dirname + '/public'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use('/components', express.static(__dirname + '/views/components'));
-app.use('/images', express.static(__dirname + '/data/postImages'));
-
+app.use('/covers', express.static(__dirname + '/data/postCovers'));
+app.set('views', path.join(__dirname, 'views'));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
+
+
+
+app.set('view engine', 'ejs');
+
 app.use(session({secret: 'secret strategic xxzzz code'}));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(require('./controllers'));
 
 var db = require('./db');
@@ -46,7 +55,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
 
   db.getConnection(function(err, connection) {
     if(err) throw err;
-    connection.query("SELECT * FROM `users` WHERE `screen_name` = '" + username + "'",function(err,rows){
+    connection.query("SELECT * FROM `users` WHERE `username` = '" + username + "'",function(err,rows){
       connection.release();
        if (err)
          return done(err);
@@ -75,17 +84,11 @@ passport.deserializeUser(function(userId, done) {
   db.getConnection(function(err, connection) {
     connection.query("select * from users where user_id = "+userId,function(err,rows){
       connection.release();
-  		done(err, rows[0]);
+  		return done(err, rows[0]);
   	});
-    // new Model.User({username: username}).fetch().then(function(user) {
-    //   done(null, user);
-    // });
   });
 
 });
-
-
-
 
 var server = app.listen(app.get('port'), function(err) {
   if(err) throw err;
